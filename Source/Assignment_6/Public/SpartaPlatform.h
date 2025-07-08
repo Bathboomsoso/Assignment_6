@@ -39,6 +39,7 @@ protected:
 	FVector TargetMove;
 	float MoveDistance;
 	float OverValue;
+	int a;
 	
 	virtual void Tick(float DeltaTime) override;
 public:	
