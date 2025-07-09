@@ -71,7 +71,6 @@ void ASpartaPlatform::Tick(float DeltaTime)
 		{
 			OverValue = FVector::Dist(StartLocation, TargetLocation); // 초과거리
 			Direction *= -1.0f;
-			
 		}
 
 		

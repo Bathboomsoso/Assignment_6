@@ -54,8 +54,8 @@ void ARandActor::SpawnActor()
 		if (SpawnedPlatform->MoveEnable)
 		{
 			SpawnedPlatform->Direction = FMath::VRand().GetSafeNormal();
-			SpawnedPlatform->Movespeed = FMath::RandRange(100.0f, 300.0f);
-			SpawnedPlatform->MaxRage = FMath::RandRange(300.0f, 600.0f);
+			SpawnedPlatform->Movespeed = FMath::RandRange(RandNumForSpeedMin, RandNumForSpeedMax);
+			SpawnedPlatform->MaxRage = FMath::RandRange(RandNumForRandRangeMin, RandNumForRandRangeMax);
 		}
 		SpawnedPlatform->RoationEnable = FMath::RandBool();
 		if (SpawnedPlatform->RoationEnable)
@@ -68,7 +68,7 @@ void ARandActor::SpawnActor()
 		if (SpawnedPlatform->DestroyEnable || SpawnedPlatform->MoveTimerEnable)
 		{
 			SpawnedPlatform->TimerEnable = true;
-			SpawnedPlatform->TimerOfPlatform = FMath::RandRange(3.0f, 6.0f);
+			SpawnedPlatform->TimerOfPlatform = FMath::RandRange(RandNumForTimesMin, RandNumForTimesMax);
 		}
 		else
 		{
