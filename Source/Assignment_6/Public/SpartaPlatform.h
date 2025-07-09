@@ -11,13 +11,6 @@ class ASSIGNMENT_6_API ASpartaPlatform : public AActor
 	
 public:	
 	ASpartaPlatform();
-
-protected:
-	USceneComponent* RootComp;
-	UStaticMeshComponent* StaticMeshComp;
-	
-	virtual void BeginPlay() override;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Roation")
 	float RoationSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Roation")
@@ -31,6 +24,21 @@ protected:
 	float MaxRage = 600.0f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Move")
 	float Movespeed = 300.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Timer")
+	bool TimerEnable = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Timer")
+	float TimerOfPlatform = 3.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Timer")
+	bool DestroyEnable = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movements|Timer")
+	bool MoveTimerEnable = false;
+
+protected:
+	USceneComponent* RootComp;
+	UStaticMeshComponent* StaticMeshComp;
+	
+	virtual void BeginPlay() override;
 	
 	FVector CurrentLocation;
 	FVector TargetLocation;
@@ -39,10 +47,11 @@ protected:
 	FVector TargetMove;
 	float MoveDistance;
 	float OverValue;
-	int a;
+	bool LoopPlatform = false;
+
+	FTimerHandle MySingleShotTimerHandle;
+	void OnSingleShotTimerElapsed();
+	void PlatformTimerMove();
 	
 	virtual void Tick(float DeltaTime) override;
-public:	
-	
-
 };

@@ -32,15 +32,15 @@ void ASpartaPlatform::BeginPlay()
 	Super::BeginPlay();
 
 	StartLocation = GetActorLocation();
-	/*
-	// 3초 후에 OnSingleShotTimerElapsed 함수를 한 번 호출합니다.
-        GetWorld()->GetTimerManager().SetTimer(
-            MySingleShotTimerHandle,        // 타이머 핸들
-            this,                           // 타이머가 만료될 때 호출될 함수가 속한 객체
-            &AMyActor::OnSingleShotTimerElapsed, // 호출될 함수 포인터
-            3.0f,                           // 지연 시간 (초)
-            false                           // 주기적으로 반복할지 여부 (false = 한 번만)
-        ); */
+
+	if (TimerEnable)
+	GetWorld()->GetTimerManager().SetTimer(
+		MySingleShotTimerHandle,
+		this,
+		&ASpartaPlatform::OnSingleShotTimerElapsed, 
+		TimerOfPlatform,
+		false
+	);
 
 }
 
@@ -71,6 +71,7 @@ void ASpartaPlatform::Tick(float DeltaTime)
 		{
 			OverValue = FVector::Dist(StartLocation, TargetLocation); // 초과거리
 			Direction *= -1.0f;
+			
 		}
 
 		
@@ -78,5 +79,37 @@ void ASpartaPlatform::Tick(float DeltaTime)
 		SetActorLocation(TargetLocation + FixRage);
 	}
 
+}
+
+void ASpartaPlatform::OnSingleShotTimerElapsed() // 타이머로 삭제, 정지함수
+{
+	if (DestroyEnable)
+	{
+		Destroy();
+	}
+	if (MoveTimerEnable)
+	{
+		MoveEnable = false;
+		GetWorld()->GetTimerManager().SetTimer(
+		MySingleShotTimerHandle,
+		this,
+		&ASpartaPlatform::PlatformTimerMove, 
+		TimerOfPlatform,
+		false
+	);
+	}
+}
+
+void ASpartaPlatform::PlatformTimerMove() // 다시 움직이는 함수
+{
+	MoveEnable = true;
+	if (MoveTimerEnable)
+		GetWorld()->GetTimerManager().SetTimer(
+			MySingleShotTimerHandle,
+			this,
+			&ASpartaPlatform::OnSingleShotTimerElapsed, 
+			TimerOfPlatform,
+			LoopPlatform
+		);
 }
 
